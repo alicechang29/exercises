@@ -1,12 +1,13 @@
 "use strict";
 
-const $calcForm = document.querySelector("#calc-form")!;
+const $calcForm = document.querySelector("#calc-form") as HTMLFormElement;
 const $amountInput = document.querySelector("#loan-amount") as HTMLInputElement;
 const $yearsInput = document.querySelector("#loan-years") as HTMLInputElement;
 const $rateInput = document.querySelector("#loan-rate") as HTMLInputElement;
 const $resultArea = document.querySelector("#result-area") as HTMLElement;
 
-const resultHistory = [];
+//TODO: type this array
+const resultHistory: { amount: number, years: number, rate: number, payment: number }[] = [];
 
 /** Retrieve form values.
  *
@@ -14,7 +15,7 @@ const resultHistory = [];
  *
  * */
 
-function getFormValues() {
+function getFormValues() : {amount: number, years: number, rate: number} {
   return {
     amount: Number($amountInput.value),
     years: Number($yearsInput.value),
@@ -25,20 +26,19 @@ function getFormValues() {
 /** Calculate monthly payment and return. */
 
 function calcMonthlyPayment(
-  monthlyPaymentInputs: { amount: number; years: number; rate: number }) :number
-   {
+  { amount, years, rate } : {amount: number, years: number, rate: number}
+) : number {
   const monthsInYear = 12;
-  const monthlyRate = (monthlyPaymentInputs.rate / 100) / monthsInYear;
-  const n = Math.floor(monthlyPaymentInputs.years * monthsInYear);
+  const monthlyRate = (rate / 100) / monthsInYear;
+  const n = Math.floor(years * monthsInYear);
   return (
-    (monthlyRate * monthlyPaymentInputs.amount) /
-    (1 - Math.pow((1 + monthlyRate), -n))
+    (monthlyRate * amount) / (1 - Math.pow((1 + monthlyRate), -n))
   );
 }
 
 /** Get form values, calculate, format to 2 decimal places, and display. */
 
-function getFormValuesAndDisplayResults() {
+function getFormValuesAndDisplayResults() : void {
   const { amount, years, rate } = getFormValues();
   const payment = calcMonthlyPayment({ amount, years, rate });
   resultHistory.push({ amount, years, rate, payment });
@@ -47,7 +47,7 @@ function getFormValuesAndDisplayResults() {
 
 /** Set initial form values and show initial results. Called at app start. */
 
-function setInitialValues() {
+function setInitialValues() : void {
   $amountInput.value = "10000";
   $yearsInput.value = "10";
   $rateInput.value = "4.5";
@@ -56,7 +56,7 @@ function setInitialValues() {
 
 /** Start: set form defaults & display; attach form submit event listener. */
 
-function start() {
+function start() : void {
   setInitialValues();
 
   $calcForm.addEventListener("submit", function (evt) {
