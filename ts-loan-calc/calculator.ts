@@ -1,10 +1,10 @@
 "use strict";
 
-const $calcForm = document.querySelector("#calc-form");
+const $calcForm = document.querySelector("#calc-form")!;
 const $amountInput = document.querySelector("#loan-amount") as HTMLInputElement;
 const $yearsInput = document.querySelector("#loan-years") as HTMLInputElement;
 const $rateInput = document.querySelector("#loan-rate") as HTMLInputElement;
-const $resultArea = document.querySelector("#result-area");
+const $resultArea = document.querySelector("#result-area") as HTMLElement;
 
 const resultHistory = [];
 
